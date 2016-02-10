@@ -33,13 +33,6 @@ docker exec -i -t "php" /bin/bash
 ```
 
 # Project specific configuration #
-Any files under ```/app/config/php70``` will be symlinked into the container's filesystem beginning at ```/etc/php/7.0```. This can be used to overwrite the container's default php fpm configuration with a custom, project specific configuration. Beside adjusting the php.ini this can also be used to enable xDebug (which is disabled by default) with the following content in ```/app/config/php70/fpm/conf.d/20-xdebug.ini```
+Any files under ```/app/config/php70``` will be symlinked into the container's filesystem beginning at ```/etc/php/7.0```. This can be used to overwrite the container's default php fpm configuration with a custom, project specific configuration.
 
 If you need a custom shell script to be run on start (e.g. to set symlinks) you can do so by creating the file ```/app/config/php70/initialize.sh```.
-
-```
-zend_extension=xdebug.so
-xdebug.remote_enable=1
-xdebug.remote_port="9001"
-xdebug.remote_connect_back=1
-```
