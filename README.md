@@ -1,38 +1,58 @@
-# Build container #
+# recommended directory structure #
+Like with my other containers I encourage you to follow a unified directory structure approach to keep things simple & maintainable, e.g.:
+
 ```
-docker build -t qoopido/php70:1.0.0 .
+project root
+  - docker_compose.yaml
+  - config
+    - php70
+      - initialize.sh (if needed)
+      - fpm
+        - php.ini (if needed)
+        - conf.d
+          - ...
+  - htdocs
+  - sessions
+  - logs
 ```
 
-# Run container manually ... #
-```
-docker run -d -P -t -i -p 9000:9000 -p 9001:9001 \
-	-v [local path to apache htdocs]:/app/htdocs \
-	-v [local path to logs]:/app/logs \
-	-v [local path to sessions]:/app/sessions \
-	-v [local path to config]:/app/config \
-	--name php qoopido/php70
-```
-
-# ... or use docker-compose #
+# Example docker_compose.yaml #
 ```
 php:
-  image: qoopido/php70
+  image: qoopido/php70:latest
+  hostname: [hostname]
   ports:
    - "9000:9000"
-   - "9001:9001"
   volumes:
-   - ./htdocs:/app/htdocs
-   - ./logs:/app/logs
-   - ./sessions:/app/sessions
    - ./config:/app/config
+   - ./htdocs:/app/htdocs
+   - ./sessions:/app/sessions
+   - ./logs:/app/logs
 ```
 
-# Open shell #
+# Or start container manually #
 ```
-docker exec -i -t "php" /bin/bash
+docker run -d -P -t -i -p 9000:9000 \
+	-v [local path to config]:/app/config \
+	-v [local path to htdocs]:/app/htdocs \
+	-v [local path to sessions]:/app/sessions \
+	-v [local path to logs]:/app/logs \
+	--name php qoopido/php70:latest
 ```
 
-# Project specific configuration #
+# Included modules #
+```
+php7.0-common
+php7.0-json
+php7.0-gd
+php7.0-curl
+php7.0-mcrypt
+php7.0-mysql
+php7.0-sqlite
+php-memcached
+```
+
+# Configuration #
 Any files under ```/app/config/php70``` will be symlinked into the container's filesystem beginning at ```/etc/php/7.0```. This can be used to overwrite the container's default php fpm configuration with a custom, project specific configuration.
 
 If you need a custom shell script to be run on start (e.g. to set symlinks) you can do so by creating the file ```/app/config/php70/initialize.sh```.
