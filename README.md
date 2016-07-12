@@ -40,6 +40,7 @@ docker run -d -P -t -i -p 9000:9000 \
 
 # Included modules #
 ```
+composer
 php7.0
 php7.0-fpm
 php7.0-dev
