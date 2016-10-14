@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.18
+FROM phusion/baseimage:latest
 MAINTAINER Dirk Lüth <info@qoopido.com>
 
 # Initialize environment
@@ -15,7 +15,7 @@ MAINTAINER Dirk Lüth <info@qoopido.com>
 	ENV LC_ALL en_US.UTF-8
 
 # add PPA for PHP 7
-	RUN sudo add-apt-repository ppa:ondrej/php
+	RUN add-apt-repository ppa:ondrej/php
 
 # install packages
 	RUN apt-get update && \
