@@ -24,17 +24,17 @@ php:
   ports:
    - "9000:9000"
   volumes:
-   - ./htdocs:/app/htdocs
-   - ./config/php70:/app/config
-   - ./data/php70:/app/data
+   - ./htdocs:/app/htdocs:z
+   - ./config/php70:/app/config:z
+   - ./data/php70:/app/data:z
 ```
 
 # Or start container manually #
 ```
 docker run -d -P -t -i -p 9000:9000 \
-	-v [local path to htdocs]:/app/htdocs \
-    -v [local path to config]:/app/config \
-    -v [local path to data]:/app/data \
+	-v [local path to htdocs]:/app/htdocs:z \
+    -v [local path to config]:/app/config:z \
+    -v [local path to data]:/app/data:z \
 	--name php qoopido/php70:latest
 ```
 

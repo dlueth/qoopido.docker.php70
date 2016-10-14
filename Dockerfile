@@ -5,18 +5,6 @@ MAINTAINER Dirk Lüth <info@qoopido.com>
 	CMD ["/sbin/my_init"]
 	ENV DEBIAN_FRONTEND noninteractive
 
-# based on dgraziotin/docker-osx-lamp
-	ENV DOCKER_USER_ID 501 
-	ENV DOCKER_USER_GID 20
-	ENV BOOT2DOCKER_ID 1000
-	ENV BOOT2DOCKER_GID 50
-
-# Tweaks to give Apache/PHP write permissions to the app
-	RUN usermod -u ${BOOT2DOCKER_ID} www-data && \
-    	usermod -G staff www-data && \
-    	groupmod -g $(($BOOT2DOCKER_GID + 10000)) $(getent group $BOOT2DOCKER_GID | cut -d: -f1) && \
-    	groupmod -g ${BOOT2DOCKER_GID} staff
-
 # install language pack required to add PPA
 	RUN apt-get update && \
 		apt-get -qy upgrade && \
