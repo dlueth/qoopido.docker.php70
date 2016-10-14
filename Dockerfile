@@ -1,4 +1,4 @@
-FROM phusion/baseimage:latest
+FROM phusion/baseimage:0.9.18
 MAINTAINER Dirk Lüth <info@qoopido.com>
 
 # Initialize environment
@@ -19,8 +19,19 @@ MAINTAINER Dirk Lüth <info@qoopido.com>
 
 # install packages
 	RUN apt-get update && \
-		apt-get install -qy php7.0-fpm \
+		apt-get install -qy \
+			php7.0 \
+			php7.0-fpm \
+			php7.0-dev \
+			php7.0-cli \
 			php7.0-common \
+			php7.0-intl \
+			php7.0-bcmath \
+			php7.0-mbstring \
+			php7.0-soap \
+			php7.0-xml \
+			php7.0-zip \
+			php7.0-apcu \
 			php7.0-json \
 			php7.0-gd \
 			php7.0-curl \
@@ -32,6 +43,12 @@ MAINTAINER Dirk Lüth <info@qoopido.com>
 # generate locales
 	RUN cp /usr/share/i18n/SUPPORTED /var/lib/locales/supported.d/local && \
 		locale-gen
+
+# install composer
+	RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+		php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+		php composer-setup.php && \
+		php -r "unlink('composer-setup.php');"
 
 # configure defaults
 	ADD configure.sh /configure.sh
